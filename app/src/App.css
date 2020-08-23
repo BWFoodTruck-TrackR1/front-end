@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.margin {
+  margin: 20rem 3rem;
+}
+
+.marginR {
+  margin: 5rem 3rem;
+}
+
+.register-div{
+  margin: 1rem;
+}
+
+.register-link{
+  /* border: 2px red solid; */
+  display: flex;
+  margin: 1rem
+}
+
+.green{
+  background-color: green;
+}
+
+.blue{
+  background-color: blue;
+}
