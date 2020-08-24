@@ -93,9 +93,10 @@ const UserLogin = () => {
                     />
 
                 </label>
-                <button >Login</button>
+                <button lassName='submitBtn'>Login</button>
             </form>
             <p>Don't have an account? <Link to='/UserRegister'>Register Here</Link></p>
+            <p>Are you a food truck operator? Login <Link to='/AdminLogin'>here</Link></p>
         </div>
     )
 }
