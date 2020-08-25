@@ -71,9 +71,18 @@ import { Form } from "semantic-ui-react"
 
 const UserLogin = () => {
 
+    const onSubmit = evt => {
+        evt.preventDefault()
+        console.log(evt)
+    }
+
+    // const onInputChange = evt => {
+    //     const
+    // }
+
     return(
         <div className='userLogin__container'>
-            <form>
+            <form onSubmit={onSubmit}>
                 <label>Username:&nbsp;
                     <input
                     name='username'

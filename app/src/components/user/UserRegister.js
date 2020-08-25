@@ -92,11 +92,28 @@ import {valueChanger, valueClearing} from "../../state-manegment/foodTruckReduce
 
 // export default UserRegister
 
-const UserRegister = () => {
+const UserRegister = (props) => {
+
+    const {
+        values,
+        errors,
+        inputChange,
+        disabled
+    } = props
+
+    const onSubmit = evt => {
+        evt.preventDefault()
+        console.log(evt)
+    }
+
+    const onInputChange = evt => {
+        const {name, value} = evt.target
+        inputChange(name, value)
+    }
 
     return(
         <div className='userRegister__container'>
-            <form>
+            <form onSubmit={onSubmit}>
                 <h3>Register a New Account</h3>
                 <label>Username:&nbsp;
                     <input 
@@ -104,8 +121,21 @@ const UserRegister = () => {
                     type='text'
                     id='newUsername'
                     placeholder='Enter Username'
-                    
+                    value={values.username}
+                    onChange={onInputChange}
                     />
+                </label>
+
+                <label>Email:&nbsp;
+                    <input 
+                    name='email'
+                    type='email'
+                    id='email'
+                    placeholder='Enter email'
+                    value={values.email}
+                    onChange={onInputChange}
+                    />
+
                 </label>
 
                 <label>Password:&nbsp;
@@ -114,7 +144,8 @@ const UserRegister = () => {
                     type='password'
                     id='newPassword'
                     placeholder='Enter Password'
-
+                    value={values.password}
+                    onChange={onInputChange}
                     />
                 </label>
 
@@ -124,6 +155,8 @@ const UserRegister = () => {
                     type='password'
                     id='confirmPassword'
                     placeholder='Re-enter Password'
+                    value={values.confirmPassword}
+                    onChange={onInputChange}
                     />
                 </label>
 
@@ -133,9 +166,14 @@ const UserRegister = () => {
                     type='text'
                     id='location'
                     placeholder='Location'
+                    value={values.location}
+                    onChange={onInputChange}
                     />
                 </label>
                 <button className='submitBtn'>Register</button>
+                <div className='errors'>
+                    <p>{errors.newUsername}</p>
+                </div>
             </form>
             <p>Already have an account? Login <Link to='/UserLogin'>here</Link></p>
         </div>
