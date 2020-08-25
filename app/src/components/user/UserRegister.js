@@ -3,6 +3,7 @@ import {useHistory, Link} from "react-router-dom"
 import * as yup from 'yup'
 import registerFormSchema from './Validation/registerFormSchema'
 import axios from 'axios'
+import styles from './UserStyles/UserRegister.css'
 
 const initialFormValues = {
     newUsername: '',
@@ -29,7 +30,7 @@ const UserRegister = (props) => {
     const [ formErrors, setFormErrors ] = useState(initialFormErrors)
     const [ disabled, setDisabled ] = useState(initialDisabled)
 
-    const { push } = useHistory()
+    const {push} = useHistory()
 
     // Below is just sample API to make sure everything is working as intended
     const getRegistrations = () => {
@@ -120,51 +121,56 @@ const UserRegister = (props) => {
 
     return(
         <div className='userRegister__container'>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} >
                 <h3>Register a New Account</h3>
-                <label>Username:&nbsp;
-                    <input 
-                    name='newUsername'
-                    type='text'
-                    placeholder='Enter Username'
-                    onChange={onInputChange}
-                    value={formValues.newUsername}
-                    />
-                </label>
+                <div className='form-inputs'>
+                    <label>Username
+                        <input 
+                        name='newUsername'
+                        type='text'
+                        placeholder='Enter Username'
+                        onChange={onInputChange}
+                        value={formValues.newUsername}
+                        />
+                    </label>
 
-                <label>Email:&nbsp;
-                    <input 
-                    name='email'
-                    type='email'
-                    placeholder='Enter email'
-                    onChange={onInputChange}
-                    value={formValues.email}
-                    />
+                    <label>Email
+                        <input 
+                        name='email'
+                        type='email'
+                        placeholder='Enter email'
+                        onChange={onInputChange}
+                        value={formValues.email}
+                        />
 
-                </label>
+                    </label>
 
-                <label>Password:&nbsp;
-                    <input
-                    name='newPassword'
-                    type='password'
-                    placeholder='Enter Password'
-                    value={formValues.newPassword}
-                    onChange={onInputChange}
-                    />
-                </label>
+                    <label>Password
+                        <input
+                        name='newPassword'
+                        type='password'
+                        placeholder='Enter Password'
+                        value={formValues.newPassword}
+                        onChange={onInputChange}
+                        />
+                    </label>
 
-                <label>Your Location:&nbsp;
-                    <input
-                    name='location'
-                    type='text'
-                    placeholder='Location'
-                    value={formValues.location}
-                    onChange={onInputChange}
-                    />
-                </label>
-                <button className='submitBtn'>Register</button> 
+                    <label>Your Location
+                        <input
+                        name='location'
+                        type='text'
+                        placeholder='Location'
+                        value={formValues.location}
+                        onChange={onInputChange}
+                        />
+                    </label>
+                    </div>
+                <button className='submitBtn' disabled={disabled}>Register</button> 
                 <div className='errors'>
                     <p>{formErrors.newUsername}</p>
+                    <p>{formErrors.email}</p>
+                    <p>{formErrors.newPassword}</p>
+                    <p>{formErrors.location}</p>
                 </div>
             </form>
             <p>Already have an account? Login <Link to='/UserLogin'>here</Link></p>

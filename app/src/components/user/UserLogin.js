@@ -4,6 +4,7 @@ import {useHistory, Link} from "react-router-dom"
 import loginFormSchema from './Validation/loginFormSchema'
 import axios from 'axios'
 import * as yup from 'yup'
+import styles from './UserStyles/UserLogin.css'
 
 const initialFormValues = {
     username: '',
@@ -87,8 +88,8 @@ const UserLogin = () => {
         postNewLogin(newLogin)
       }
 
-      useEffect(() => {
-        getLogins()
+    useEffect(() => {
+        getLogins();
     }, [])
 
     useEffect(() => {
@@ -113,28 +114,30 @@ const UserLogin = () => {
     return(
         <div className='userLogin__container'>
             <form onSubmit={onSubmit}>
-                <label>Username:&nbsp;
-                    <input
-                    name='username'
-                    type='text'
-                    placeholder='Username'
-                    value={formValues.username}
-                    onChange={onInputChange}
-                    />
-                </label>
+                <div className='form-inputs'>
+                    <label>Username
+                        <input
+                        name='username'
+                        type='text'
+                        placeholder='Username'
+                        value={formValues.username}
+                        onChange={onInputChange}
+                        />
+                    </label>
 
-                <label>Password:&nbsp;
-                    <input 
-                    name='password'
-                    type='password'
-                    placeholder='Enter Password'
-                    value={formValues.password}
-                    onChange={onInputChange}
+                    <label>Password
+                        <input 
+                        name='password'
+                        type='password'
+                        placeholder='Enter Password'
+                        value={formValues.password}
+                        onChange={onInputChange}
 
-                    />
+                        />
 
-                </label>
-                <button lassName='submitBtn'>Login</button>
+                    </label>
+                    </div>
+                <button className='submitBtn' disabled={disabled}>Login</button>
                 <div className='errors'>
                     <p>{formErrors.username}</p>
                     <p>{formErrors.password}</p>
