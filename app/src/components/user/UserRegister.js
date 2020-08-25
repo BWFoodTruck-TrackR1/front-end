@@ -1,109 +1,115 @@
-import React from "react"
-import {useSelector} from "react-redux"
+import React, { useState, useEffect } from "react"
 import {useHistory, Link} from "react-router-dom"
+import * as yup from 'yup'
+import registerFormSchema from './Validation/registerFormSchema'
+import axios from 'axios'
 
-import store from "../../state-manegment/store"
-import {valueChanger, valueClearing} from "../../state-manegment/foodTruckReducer"
+const initialFormValues = {
+    newUsername: '',
+    email: '',
+    newPassword: '',
+    location: '',
+}
 
+const initialFormErrors = {
+    newUsername: '',
+    email: '',
+    newPassword: '',
+    location: '',
+}
 
-// const UserRegister = () => {
-//     const register = useSelector(state=> state.register)
-//     console.log(register)
-
-//     const {push} = useHistory()
-
-//     const valueUpdate = (event) => {
-//         const {name, value} = event.target
-//         store.dispatch(valueChanger(value, name))
-//     }
-
-//     const submit = (event) => {
-//         event.preventDefault()
-//         console.log("submitting!!!!!")
-//         store.dispatch(valueClearing())
-//         push("/Hello")
-//     }
-
-//     return (
-//         <div>
-//            <form onSubmit={submit}>
-//                <label htmlFor="usernameR">
-//                Username
-//                <div>
-//                <input
-//                 type="text"
-//                 name="usernameR"
-//                 id="usernameR"
-//                 placeholder="Enter Your Username"
-//                 value={register.usernameR}
-//                 onChange={valueUpdate}
-//                 />
-//                </div>
-//                </label>
+const initialRegistrations = []
+const initialDisabled = true
 
 
-//                <label htmlFor="email">
-//                 Email
-//                <div>
-//                <input
-//                type="text"
-//                name="email"
-//                id="email"
-//                placeholder="Enter Your Email"
-//                value={register.email}
-//                onChange={valueUpdate}
-//                 />
-//                </div>
-//                </label>
 
-//                <label htmlFor="passwordR">
-//                Password
-//                <div>
-//                <input
-//                 type="text"
-//                 name="passwordR"
-//                 id="passwordR"
-//                 placeholder="Enter Your Password"
-//                 value={register.passwordR}
-//                 onChange={valueUpdate}
-//                 />
-//                </div>
-//                </label>
-
-//                <label htmlFor="confirmPassword">
-//                Confirm Your Password
-//                <div>
-//                <input
-//                type="text"
-//                name="confirmPassword"
-//                id="confirmPassword"
-//                placeholder="Confrim Your Password"
-//                value={register.confirmPassword}
-//                onChange={valueUpdate}
-//                 />
-//                </div>
-//                </label>
-//                <button type="submit">Register !</button>
-              
-//            </form>
-//         </div>
-//     )
-// }
-
-// export default UserRegister
 
 const UserRegister = (props) => {
 
-    const {
-        values,
-        errors,
-        inputChange,
-        disabled
-    } = props
+    const [registrations, setRegistrations ] = useState(initialRegistrations)
+    const [ formValues, setFormValues ] = useState(initialFormValues)
+    const [ formErrors, setFormErrors ] = useState(initialFormErrors)
+    const [ disabled, setDisabled ] = useState(initialDisabled)
+
+    // Below is just sample API to make sure everything is working as intended
+    const getRegistrations = () => {
+        axios.get('https://reqres.in/api/users')
+          .then(res => {
+            console.log(res.data)
+            setRegistrations(res.data.data)
+          })
+          .catch(err => {
+            debugger
+          })
+      }
+
+      const postNewRegistration = newRegistration => {
+
+        axios.post('https://reqres.in/api/users', newRegistration)
+          .then(res => {
+            setRegistrations([...registrations, res.data])
+          })
+          .catch(err => {
+            debugger
+          })
+          .finally(() => {
+            setFormValues(initialFormValues)
+          })
+      }
+
+      const inputChange = (name, value) => {
+
+        yup
+            .reach(registerFormSchema, name)
+            .validate(value)
+            .then(valid => {
+                setFormErrors({
+                    ...formErrors,
+                    [name]: '',
+                })
+            })
+            .catch(err => {
+                setFormErrors({
+                    ...formErrors,
+                    [name]: err.errors[0]
+                })
+            })
+
+            setFormValues({
+                ...formValues,
+                [name]: value
+            })
+
+      }
+
+      const submit = () => {
+
+        const newRegistration = {
+            newUsername: formValues.newUsername.trim(),
+            email: formValues.email.trim(),
+            newPassword: formValues.newPassword.trim(),
+            location: formValues.location.trim(),
+        }
+        console.log(newRegistration)
+        postNewRegistration(newRegistration)
+      }
+
+      useEffect(() => {
+          getRegistrations()
+      }, [])
+
+      useEffect(() => {
+          registerFormSchema.isValid(formValues)
+            .then(valid => {
+                setDisabled(!valid)
+            })
+      }, [formValues])
+
+    
 
     const onSubmit = evt => {
         evt.preventDefault()
-        console.log(evt)
+        submit()
     }
 
     const onInputChange = evt => {
@@ -119,10 +125,9 @@ const UserRegister = (props) => {
                     <input 
                     name='newUsername'
                     type='text'
-                    id='newUsername'
                     placeholder='Enter Username'
-                    value={values.username}
                     onChange={onInputChange}
+                    value={formValues.newUsername}
                     />
                 </label>
 
@@ -130,10 +135,9 @@ const UserRegister = (props) => {
                     <input 
                     name='email'
                     type='email'
-                    id='email'
                     placeholder='Enter email'
-                    value={values.email}
                     onChange={onInputChange}
+                    value={formValues.email}
                     />
 
                 </label>
@@ -142,20 +146,8 @@ const UserRegister = (props) => {
                     <input
                     name='newPassword'
                     type='password'
-                    id='newPassword'
                     placeholder='Enter Password'
-                    value={values.password}
-                    onChange={onInputChange}
-                    />
-                </label>
-
-                <label>Confirm Password: &nbsp;
-                    <input
-                    name='confirmPassword'
-                    type='password'
-                    id='confirmPassword'
-                    placeholder='Re-enter Password'
-                    value={values.confirmPassword}
+                    value={formValues.newPassword}
                     onChange={onInputChange}
                     />
                 </label>
@@ -164,15 +156,14 @@ const UserRegister = (props) => {
                     <input
                     name='location'
                     type='text'
-                    id='location'
                     placeholder='Location'
-                    value={values.location}
+                    value={formValues.location}
                     onChange={onInputChange}
                     />
                 </label>
-                <button className='submitBtn'>Register</button>
+                <button className='submitBtn'>Register</button> 
                 <div className='errors'>
-                    <p>{errors.newUsername}</p>
+                    <p>{formErrors.newUsername}</p>
                 </div>
             </form>
             <p>Already have an account? Login <Link to='/UserLogin'>here</Link></p>

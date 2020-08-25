@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-const formSchema = yup.object().shape({
+const registerFormSchema = yup.object().shape({
     newUsername: yup
         .string()
         .required('You must enter a username')
@@ -9,8 +9,6 @@ const formSchema = yup.object().shape({
         .string(),
     newPassword: yup
         .string(),
-    confirmPassword: yup
-        .string(),
     location: yup
         .string()
     
@@ -18,4 +16,4 @@ const formSchema = yup.object().shape({
 
 })
 
-export default formSchema;
+export default registerFormSchema;
