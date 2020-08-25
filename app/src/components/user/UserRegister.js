@@ -29,6 +29,8 @@ const UserRegister = (props) => {
     const [ formErrors, setFormErrors ] = useState(initialFormErrors)
     const [ disabled, setDisabled ] = useState(initialDisabled)
 
+    const { push } = useHistory()
+
     // Below is just sample API to make sure everything is working as intended
     const getRegistrations = () => {
         axios.get('https://reqres.in/api/users')
@@ -108,6 +110,7 @@ const UserRegister = (props) => {
     const onSubmit = evt => {
         evt.preventDefault()
         submit()
+        push("/Hello")
     }
 
     const onInputChange = evt => {

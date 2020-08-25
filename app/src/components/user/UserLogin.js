@@ -25,6 +25,8 @@ const UserLogin = () => {
     const [ formErrors, setFormErrors ] = useState(initialFormErrors)
     const [ disabled, setDisabled ] = useState(initialDisabled)
 
+    const { push } = useHistory()
+
     // Below is just sample API to make sure everything is working as intended
     const getLogins = () => {
         axios.get('https://reqres.in/api/users')
@@ -100,6 +102,7 @@ const UserLogin = () => {
     const onSubmit = evt => {
         evt.preventDefault()
         submit()
+        push("/Hello")
     }
 
     const onInputChange = evt => {
