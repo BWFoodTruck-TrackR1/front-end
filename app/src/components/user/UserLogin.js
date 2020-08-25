@@ -1,84 +1,111 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import store from "../../state-manegment/store"
-import {useSelector} from "react-redux"
 import {useHistory, Link} from "react-router-dom"
+import loginFormSchema from './Validation/loginFormSchema'
+import axios from 'axios'
+import * as yup from 'yup'
 
-import {valueChanger, valueClearing} from "../../state-manegment/foodTruckReducer"
-import { Form } from "semantic-ui-react"
+const initialFormValues = {
+    username: '',
+    password: '',
+}
 
+const initialFormErrors = {
+    username: '',
+    password: '',
+}
 
-// const UserLogin = () => {
-//     const login = useSelector(state => state.login)
-//     console.log(login)
-
-//     const {push} = useHistory()
-
-//     const valueUpdate = (event) => {
-//         const {name, value} = event.target
-//         store.dispatch(valueChanger(value,name))
-//     }
-
-//     const submit = (event) => {
-//         event.preventDefault()
-//         console.log("submitting!!!!!")
-//         store.dispatch(valueClearing())
-//         push("/Hello")
-//     }
-
-//     return (
-//         <div>
-//             <form onSubmit={submit}>
-//                 <label htmlFor="username">
-//                 Username
-//                 <div>
-//                 <input
-//                 type="text"
-//                 name="username"
-//                 id="username"
-//                 placeholder="Enter Your Username"
-//                 value={login.username}
-//                 onChange={valueUpdate}
-//                  />
-//                 </div>
-                    
-//                 </label>
-
-//                 <label htmlFor="password">
-//                 Password
-//                 <div>
-//                 <input
-//                 type="text"
-//                 name="password"
-//                 id="password"
-//                 placeholder="Enter Your Password"
-//                 value={login.password}
-//                 onChange={valueUpdate}
-//                  />
-//                 </div>
-                    
-//                 </label>
-//                 <button type="submit">Login!</button>
-//             </form>
-//             dont have an accout? <Link to="/UserRegister" >
-//                 register
-//             </Link>
-            
-//         </div>
-//     )
-// }
-
-// export default UserLogin
+const initialLogins = []
+const initialDisabled = true
 
 const UserLogin = () => {
 
+    const [logins, setLogins ] = useState(initialLogins)
+    const [ formValues, setFormValues ] = useState(initialFormValues)
+    const [ formErrors, setFormErrors ] = useState(initialFormErrors)
+    const [ disabled, setDisabled ] = useState(initialDisabled)
+
+    // Below is just sample API to make sure everything is working as intended
+    const getLogins = () => {
+        axios.get('https://reqres.in/api/users')
+          .then(res => {
+            setLogins(res.data.data)
+          })
+          .catch(err => {
+            debugger
+          })
+      }
+
+      const postNewLogin = newLogin => {
+
+        axios.post('https://reqres.in/api/users', newLogin)
+          .then(res => {
+            setLogins([...logins, res.data])
+          })
+          .catch(err => {
+            debugger
+          })
+          .finally(() => {
+            setFormValues(initialFormValues)
+          })
+      }
+
+      const inputChange = (name, value) => {
+
+        yup
+            .reach(loginFormSchema, name)
+            .validate(value)
+            .then(valid => {
+                setFormErrors({
+                    ...formErrors,
+                    [name]: '',
+                })
+            })
+            .catch(err => {
+                setFormErrors({
+                    ...formErrors,
+                    [name]: err.errors[0]
+                })
+            })
+
+            setFormValues({
+                ...formValues,
+                [name]: value
+            })
+
+      }
+
+      const submit = () => {
+
+        const newLogin = {
+            username: formValues.username.trim(),
+            password: formValues.password.trim(),
+        }
+        console.log(newLogin)
+        postNewLogin(newLogin)
+      }
+
+      useEffect(() => {
+        getLogins()
+    }, [])
+
+    useEffect(() => {
+        loginFormSchema.isValid(formValues)
+          .then(valid => {
+              setDisabled(!valid)
+          })
+    }, [formValues])
+
+
     const onSubmit = evt => {
         evt.preventDefault()
-        console.log(evt)
+        submit()
     }
 
-    // const onInputChange = evt => {
-    //     const
-    // }
+    const onInputChange = evt => {
+        const {name, value } = evt.target
+        inputChange(name, value)
+    }
 
     return(
         <div className='userLogin__container'>
@@ -88,8 +115,8 @@ const UserLogin = () => {
                     name='username'
                     type='text'
                     placeholder='Username'
-                    id='username'
-                    
+                    value={formValues.username}
+                    onChange={onInputChange}
                     />
                 </label>
 
@@ -98,11 +125,17 @@ const UserLogin = () => {
                     name='password'
                     type='password'
                     placeholder='Enter Password'
-                    id='password'
+                    value={formValues.password}
+                    onChange={onInputChange}
+
                     />
 
                 </label>
                 <button lassName='submitBtn'>Login</button>
+                <div className='errors'>
+                    <p>{formErrors.username}</p>
+                    <p>{formErrors.password}</p>
+                </div>
             </form>
             <p>Don't have an account? <Link to='/UserRegister'>Register Here</Link></p>
             <p>Are you a food truck operator? Login <Link to='/AdminLogin'>here</Link></p>

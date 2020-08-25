@@ -22,8 +22,6 @@ const initialRegistrations = []
 const initialDisabled = true
 
 
-
-
 const UserRegister = (props) => {
 
     const [registrations, setRegistrations ] = useState(initialRegistrations)
