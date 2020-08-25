@@ -1,0 +1,44 @@
+
+form {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    
+    
+
+}
+
+.userLogin__container {
+    border: 3px solid #74BDCB;
+    width: 50%;
+    margin: 10% auto;
+    padding: 5%;
+    background-color: #FFA384;
+    border-radius: 20px;
+}
+
+.form-inputs input{
+    display: flex;
+    flex-flow: column wrap;
+    text-align: center;
+}
+
+.form-inputs label {
+    display: flex;
+    flex-flow: column wrap;
+    margin: 5% 0;
+}
+
+.submitBtn {
+    margin: 5% 0;
+    padding: 2% 0;
+}
+
+.submitBtn:hover {
+    border: 2px solid #FFA384;
+    
+}
+
+.errors {
+    margin: 5% 0;
+}

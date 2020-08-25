@@ -1,12 +1,15 @@
 import React from 'react';
 import {Route, Switch} from "react-router-dom"
 
+
 import './App.css';
 import 'semantic-ui-css/semantic.min.css'
 
 // react 1 developer 
 import UserLogin from "./components/user/UserLogin"
 import UserRegister from "./components/user/UserRegister"
+import Header from './components/user/Header'
+
 // react 1 developer 
 
 import AdminLogin from "./components/admin/AdminLogin"
@@ -16,7 +19,11 @@ import Hello from "./components/Hello"
 import Home from "./components/Home"
 
 
-const App = ()  =>{
+
+
+
+const App = ()  => {
+
   
   return (
     
@@ -25,10 +32,12 @@ const App = ()  =>{
       <Switch>
        {/* react 1 developer  */}
       <Route  path="/UserRegister">
+        <Header />
         <UserRegister />
       </Route>
 
       <Route  path="/UserLogin">
+        <Header />
         <UserLogin />
       </Route>
       {/* react 1 developer  */}
