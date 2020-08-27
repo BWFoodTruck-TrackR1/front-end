@@ -5,6 +5,8 @@ import registerFormSchema from './Validation/registerFormSchema'
 import axios from 'axios'
 import styles from './UserStyles/UserRegister.css'
 
+import RestaurantList from './RestaurantList'
+
 const initialFormValues = {
     newUsername: '',
     email: '',
@@ -30,7 +32,21 @@ const UserRegister = (props) => {
     const [ formErrors, setFormErrors ] = useState(initialFormErrors)
     const [ disabled, setDisabled ] = useState(initialDisabled)
 
+    const [restaurantData, setRestaurantData] = useState(null)
+
     const {push} = useHistory()
+
+    // The below useEffect is for getting data on restaurants near the user
+
+    const fetchRestaurants = () => {
+        axios.get(`http://opentable.herokuapp.com/api/restaurants?city=${formValues.location}`)
+            .then(res => {
+                setRestaurantData(res.data.restaurants)
+            })
+            .catch(err => {
+                debugger
+            })
+        }
 
     // Below is just sample API to make sure everything is working as intended
     const getRegistrations = () => {
@@ -120,6 +136,7 @@ const UserRegister = (props) => {
     }
 
     return(
+    <div className='full-page'>
         <div className='userRegister__container'>
             <form onSubmit={onSubmit} >
                 <h3>Register a New Account</h3>
@@ -174,7 +191,17 @@ const UserRegister = (props) => {
                 </div>
             </form>
             <p>Already have an account? Login <Link to='/UserLogin'>here</Link></p>
+            <button onClick={fetchRestaurants}>Fetch Dinner</button>
         </div>
+        <div className='restaurants'>
+            {restaurantData && restaurantData.map((restaur, index) => (
+            <div className='restaurant' key={index}>
+                <h2>{restaur.name}</h2>
+            </div>
+            ))}
+        </div>
+        </div>
+        
     )
 }
 
