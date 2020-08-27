@@ -2,31 +2,34 @@
 
 import React from "react";
 import store from "../../state-manegment/store";
-import { useSelector } from "react-redux";
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Button, Divider, Form, Grid, Segment } from "semantic-ui-react";
+import axios from "axios";
+import { valueClearing } from "../../state-manegment/foodTruckReducer";
 
-import {
-  valueChanger,
-  valueClearing,
-} from "../../state-manegment/foodTruckReducer";
+import { useAdminForm } from "../../hooks/useAdminForm";
 
 const AdminLogin = () => {
-  const login = useSelector((state) => state.login);
+  const [state, valueUpdate] = useAdminForm();
+  const login = state.login;
+  const { push } = useHistory();
   console.log(login);
 
-  const { push } = useHistory();
+  const axiosLogin = () => {
+    axios
+      .post(`https://wunderlist2backend.herokuapp.com/api/login`, login)
 
-  const valueUpdate = (event) => {
-    const { name, value } = event.target;
-    store.dispatch(valueChanger(value, name));
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        store.dispatch(valueClearing());
+        push("/list");
+      })
+      .catch((err) => console.log("noo", err));
   };
 
   const submit = (event) => {
     event.preventDefault();
-    console.log("submitting!!!!!");
-    store.dispatch(valueClearing());
-    push("/Hello");
+    axiosLogin();
   };
 
   return (
@@ -62,7 +65,7 @@ const AdminLogin = () => {
 
           <Grid.Column verticalAlign="middle">
             <Button
-            className="blue"
+              className="blue"
               content="Sign up"
               icon="signup"
               size="big"
