@@ -40,7 +40,7 @@ const UserRegister = (props) => {
     // The below useEffect is for getting data on restaurants near the user
 
     const fetchRestaurants = () => {
-        axios.get(`http://opentable.herokuapp.com/api/restaurants?city=${formValues.location}`)
+        axios.get(`https://opentable.herokuapp.com/api/restaurants?city=${formValues.location}`)
             .then(res => {
                 setRestaurantData(res.data.restaurants)
             })
