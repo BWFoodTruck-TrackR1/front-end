@@ -9,7 +9,7 @@ import 'semantic-ui-css/semantic.min.css'
 import UserLogin from "./components/user/UserLogin"
 import UserRegister from "./components/user/UserRegister"
 import Header from './components/user/Header'
-
+import Hello from './components/Hello'
 // react 1 developer 
 
 import AdminLogin from "./components/admin/AdminLogin"
@@ -42,6 +42,11 @@ const App = ()  => {
         <Header />
         <UserLogin />
       </Route>
+
+      <Route path="/Hello" >
+        <Hello />
+      </Route>
+
       {/* react 1 developer  */}
       
       <Route path="/AdminLogin">
