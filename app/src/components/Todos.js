@@ -5,6 +5,7 @@ import {axiosCAllTodo,valueClearing} from "../state-manegment/foodTruckReducer"
 import store from "../state-manegment/store"
 import {useAdminForm} from "../hooks/useAdminForm"
 import {axiosWithAuth} from "../utils/axiosWithAuth"
+import { Button, Form} from "semantic-ui-react"
 
 const Todos = () => {
     const {id} = useParams()
@@ -58,9 +59,11 @@ const Todos = () => {
     }
     
     return (
-        <div>
+        <div className="flex">
+        <div className="container">
             {todos.map(data=>
-                <div key={data.id}>
+                <div key={data.id} className="flex2" > 
+                <div key={data.id} className="container3">
                     <div className={completeToggle == data.id? "complete" : "uncomplete"} 
                     onClick={()=> completeToggle == 0 ?  setCompleteToggle(data.id) : setCompleteToggle(0) }
                     > Todo: {data.todo}</div>
@@ -68,32 +71,34 @@ const Todos = () => {
                     <button onClick={()=> deleteTodo(data.id)}>Delete Todo</button>
                     
                     <div className={updateToggle == data.id? "show" : "no-show"}>
-               <form onSubmit={(event)=> todoUpdating(data.id, event)} >
-                   <label>
-                       <input
+               <Form onSubmit={(event)=> todoUpdating(data.id, event)} >
+                  
+                       <Form.Input
                        type="text"
                        name="todoUpdate"
                        id="todoUpdate"
+                       placeholder="Update Todo"
                        value={updaTodo.todoUpdate}
                        onChange={valueUpdate}
                         />
-                   </label>
-                   <button> Update</button>
-               </form>
-               <button onClick={()=>{setUpdateToggle(0)
+                   
+                   <Button className="blue"> Update</Button>
+               </Form>
+               <div className="button-margin">
+               <Button className="orange" onClick={()=>{setUpdateToggle(0)
                store.dispatch(valueClearing())
-               }}>cancle</button>
+               }}>cancle</Button>
+               </div>
            </div>
 
+                </div>
                 </div>
            )}
 
             <div>
-           <form
-            onSubmit={submit} 
-            >
-               <label>
-                   <input
+           <Form onSubmit={submit}>
+               
+                   <Form.Input
                    type="text"
                    name="todo"
                    id="todo"
@@ -101,12 +106,14 @@ const Todos = () => {
                    value={addTodo.todo}
                    onChange={valueUpdate}
                     />
-               </label>
-               <button type="submit">Add Todo</button>
-           </form>
+               
+               <Button type="submit" className="green">Add Todo</Button>
+           </Form>
            </div>
 
         </div>
+        </div>
+
     )
 }
 
