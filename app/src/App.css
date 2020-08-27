@@ -55,10 +55,63 @@
   margin: 1rem
 }
 
-.green{
-  background-color: green;
+
+.show {
+  margin-top: 1rem;
 }
 
-.blue{
-  background-color: blue;
+.no-show {
+  display: none;
 }
+
+.complete {
+  text-decoration: line-through;
+  color: red
+}
+
+
+.container {
+  
+  padding: 1rem;
+  width: 72%;
+  box-shadow: 2px 4px 10px slategrey;
+  
+}
+
+.container2 {
+ font-size: 1.2rem;
+  background-color: rgba(33, 235, 26, 0.8);
+  margin: 1rem;
+  padding: 1rem;
+  width: 72%;
+  box-shadow: 2px 4px 10px slategrey;
+  
+}
+
+.container3 {
+  font-size: 1.2rem;
+  background-color: rgba(11, 245, 226, 0.938);
+  margin: 1rem;
+  padding: 1rem;
+  width: 72%;
+  box-shadow: 2px 4px 10px slategrey;
+  
+}
+
+.flex2{
+ 
+  display: flex;
+  justify-content: center;
+}
+.flex {
+   
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.button-margin{
+  margin-top: .5rem;
+}
+
+/* background-color: rgba(255, 99, 71, 0.8); */
