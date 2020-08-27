@@ -5,6 +5,7 @@ import loginFormSchema from './Validation/loginFormSchema'
 import axios from 'axios'
 import * as yup from 'yup'
 import styles from './UserStyles/UserLogin.css'
+import { useSpring, animated } from 'react-spring'
 
 const initialFormValues = {
     username: '',
@@ -111,15 +112,27 @@ const UserLogin = () => {
         inputChange(name, value)
     }
 
+    //Animation
+
+    const fade = useSpring({
+        from: {
+            opacity: 0
+        },
+        to: {
+        opacity: 1
+        }
+    })
+
     return(
-        <div className='userLogin__container'>
+        <animated.div className='userLogin__container' style={fade}>
             <form onSubmit={onSubmit}>
+                <h3>Login</h3>
                 <div className='form-inputs'>
                     <label>Username
                         <input
                         name='username'
                         type='text'
-                        placeholder='Username'
+                        placeholder=' Enter Username'
                         value={formValues.username}
                         onChange={onInputChange}
                         />
@@ -145,7 +158,7 @@ const UserLogin = () => {
             </form>
             <p>Don't have an account? <Link to='/UserRegister'>Register Here</Link></p>
             <p>Are you a food truck operator? Login <Link to='/AdminLogin'>here</Link></p>
-        </div>
+        </animated.div>
     )
 }
 

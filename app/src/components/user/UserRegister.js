@@ -3,7 +3,10 @@ import {useHistory, Link} from "react-router-dom"
 import * as yup from 'yup'
 import registerFormSchema from './Validation/registerFormSchema'
 import axios from 'axios'
-import styles from './UserStyles/UserRegister.css'
+import './UserStyles/UserRegister.css'
+import { useSpring, animated } from 'react-spring'
+
+
 
 const initialFormValues = {
     newUsername: '',
@@ -30,13 +33,26 @@ const UserRegister = (props) => {
     const [ formErrors, setFormErrors ] = useState(initialFormErrors)
     const [ disabled, setDisabled ] = useState(initialDisabled)
 
+    const [restaurantData, setRestaurantData] = useState(null)
+
     const {push} = useHistory()
+
+    // The below useEffect is for getting data on restaurants near the user
+
+    const fetchRestaurants = () => {
+        axios.get(`http://opentable.herokuapp.com/api/restaurants?city=${formValues.location}`)
+            .then(res => {
+                setRestaurantData(res.data.restaurants)
+            })
+            .catch(err => {
+                debugger
+            })
+        }
 
     // Below is just sample API to make sure everything is working as intended
     const getRegistrations = () => {
         axios.get('https://reqres.in/api/users')
           .then(res => {
-            console.log(res.data)
             setRegistrations(res.data.data)
           })
           .catch(err => {
@@ -119,8 +135,21 @@ const UserRegister = (props) => {
         inputChange(name, value)
     }
 
+
+    //Animation
+
+    const fade = useSpring({
+        from: {
+            opacity: 0
+        },
+        to: {
+        opacity: 1
+        }
+    })
+
     return(
-        <div className='userRegister__container'>
+    <div className='full-page'>
+        <animated.div className='userRegister__container' style={fade}>
             <form onSubmit={onSubmit} >
                 <h3>Register a New Account</h3>
                 <div className='form-inputs'>
@@ -138,7 +167,7 @@ const UserRegister = (props) => {
                         <input 
                         name='email'
                         type='email'
-                        placeholder='Enter email'
+                        placeholder='Enter Email'
                         onChange={onInputChange}
                         value={formValues.email}
                         />
@@ -159,7 +188,7 @@ const UserRegister = (props) => {
                         <input
                         name='location'
                         type='text'
-                        placeholder='Location'
+                        placeholder='Enter City Name'
                         value={formValues.location}
                         onChange={onInputChange}
                         />
@@ -174,7 +203,22 @@ const UserRegister = (props) => {
                 </div>
             </form>
             <p>Already have an account? Login <Link to='/UserLogin'>here</Link></p>
+            <div className='button-box'>
+                <h4>Prefer a sit down meal? Enter your location above</h4>
+                <button onClick={fetchRestaurants}>Find Restaurants Near {formValues.location}</button>
+            </div>
+        </animated.div>
+        <div className='restaurants' >
+            {restaurantData && restaurantData.slice(0, 5).map((restaurant, index) => (
+            <div className='restaurant' key={index} >
+                <h4>{restaurant.name}</h4>
+                <p>{restaurant.address}, {restaurant.city} {restaurant.state}</p>
+                <a href={restaurant.reserve_url} target='_blank'>Learn More</a>
+            </div>
+            ))}
         </div>
+    </div>
+        
     )
 }
 
