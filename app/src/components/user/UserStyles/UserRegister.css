@@ -1,19 +1,14 @@
 
-
-
 form {
     display: flex;
     flex-flow: column wrap;
     align-content: center;
-    
-    
-
 }
 
 .userRegister__container {
     border: 3px solid #74BDCB;
     width: 50%;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 5%;
     background-color: #FFA384;
     border-radius: 20px;
@@ -44,3 +39,30 @@ form {
 .errors {
     margin: 5% 0;
 }
+
+.restaurants {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    width: 75%;
+    margin: 2% auto;
+
+}
+
+.restaurant {
+    
+    border: 2px solid #FFA384;
+    margin: 2%;
+    padding: 2%;
+    border-radius: 20px;
+    background-image: radial-gradient(#ebe6e0, #FFA384);
+}
+
+.restaurant:hover {
+    border: 5px dashed #FFA384;
+}
+
+.restaurant h4 {
+    text-decoration: underline;
+}
+

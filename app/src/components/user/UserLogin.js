@@ -120,7 +120,7 @@ const UserLogin = () => {
                         <input
                         name='username'
                         type='text'
-                        placeholder='Username'
+                        placeholder=' Enter Username'
                         value={formValues.username}
                         onChange={onInputChange}
                         />

@@ -3,9 +3,9 @@ import {useHistory, Link} from "react-router-dom"
 import * as yup from 'yup'
 import registerFormSchema from './Validation/registerFormSchema'
 import axios from 'axios'
-import styles from './UserStyles/UserRegister.css'
+import './UserStyles/UserRegister.css'
 
-import RestaurantList from './RestaurantList'
+
 
 const initialFormValues = {
     newUsername: '',
@@ -155,7 +155,7 @@ const UserRegister = (props) => {
                         <input 
                         name='email'
                         type='email'
-                        placeholder='Enter email'
+                        placeholder='Enter Email'
                         onChange={onInputChange}
                         value={formValues.email}
                         />
@@ -176,7 +176,7 @@ const UserRegister = (props) => {
                         <input
                         name='location'
                         type='text'
-                        placeholder='Location'
+                        placeholder='Enter City Name'
                         value={formValues.location}
                         onChange={onInputChange}
                         />
@@ -191,16 +191,21 @@ const UserRegister = (props) => {
                 </div>
             </form>
             <p>Already have an account? Login <Link to='/UserLogin'>here</Link></p>
-            <button onClick={fetchRestaurants}>Fetch Dinner</button>
+            <div className='button-box'>
+                <h4>Prefer a sit down meal? Enter your location above</h4>
+                <button onClick={fetchRestaurants}>Find Restaurants Near {formValues.location}</button>
+            </div>
         </div>
         <div className='restaurants'>
-            {restaurantData && restaurantData.map((restaur, index) => (
+            {restaurantData && restaurantData.slice(0, 5).map((restaurant, index) => (
             <div className='restaurant' key={index}>
-                <h2>{restaur.name}</h2>
+                <h4>{restaurant.name}</h4>
+                <p>{restaurant.address}, {restaurant.city} {restaurant.state}</p>
+                <a href={restaurant.reserve_url} target='_blank'>Learn More</a>
             </div>
             ))}
         </div>
-        </div>
+    </div>
         
     )
 }
