@@ -7,6 +7,7 @@ import {useAdminForm} from "../hooks/useAdminForm"
 import {axiosWithAuth} from "../utils/axiosWithAuth"
 import { Button, Form} from "semantic-ui-react"
 
+import Logout from "./Logout"
 const Todos = () => {
     const {id} = useParams()
     const todos = useSelector(state=>state.todos)
@@ -61,6 +62,7 @@ const Todos = () => {
     return (
         <div className="flex">
         <div className="container">
+        <Logout />
             {todos.map(data=>
                 <div key={data.id} className="flex2" > 
                 <div key={data.id} className="container3">
