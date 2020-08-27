@@ -10,7 +10,7 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useHistory } from "react-router-dom";
 import { Button, Form} from "semantic-ui-react";
 import store from "../state-manegment/store";
-
+import Logout from "./Logout"
 import { useAdminForm } from "../hooks/useAdminForm";
 
 const List = () => {
@@ -66,6 +66,7 @@ const List = () => {
   return (
       <div className="flex">
     <div className="container">
+    <Logout />
       {user.map((data) => (
           <div key={data.id} className="flex2">
         <div key={data.id} className="container2">
