@@ -62,3 +62,18 @@
 .blue{
   background-color: blue;
 }
+
+
+
+/* .show {
+  background-color: blue;
+} */
+
+.no-show {
+  display: none;
+}
+
+.complete {
+  text-decoration: line-through;
+  /* background-color: crimson; */
+}

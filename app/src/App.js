@@ -15,9 +15,11 @@ import Header from './components/user/Header'
 import AdminLogin from "./components/admin/AdminLogin"
 import AdminRegister from "./components/admin/AdminRegister"
 
-import Hello from "./components/Hello"
+import List from "./components/List"
 import Home from "./components/Home"
+import Todos from "./components/Todos"
 
+import PrivateRouteLogin from "./components/privateRoutes/PrivateRouteLogin"
 
 
 
@@ -50,12 +52,13 @@ const App = ()  => {
         <AdminRegister />
       </Route>
 
-      
-      <Route path="/Hello">
-        <Hello />
+      <Route path="/list/Todos/:id" >
+        <Todos />
       </Route>
 
-      {/* hello needs to be a privateRoute */}
+      
+      <PrivateRouteLogin path="/list" component={List} />
+       
 
       <Route path ="/">
         <Home />
