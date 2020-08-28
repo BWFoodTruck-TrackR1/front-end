@@ -202,7 +202,8 @@ const UserRegister = (props) => {
                     <p>{formErrors.location}</p>
                 </div>
             </form>
-            <p>Already have an account? Login <Link to='/UserLogin'>here</Link></p>
+            <p><Link to='/UserLogin'> Already have an account? Login here</Link></p>
+            <p><Link to='/Home'>Back to register Home Page</Link></p>
             <div className='button-box'>
                 <h4>Prefer a sit down meal? Enter your location above</h4>
                 <button onClick={fetchRestaurants}>Find Restaurants Near {formValues.location}</button>
