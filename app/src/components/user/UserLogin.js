@@ -156,8 +156,8 @@ const UserLogin = () => {
                     <p>{formErrors.password}</p>
                 </div>
             </form>
-            <p>Don't have an account? <Link to='/UserRegister'>Register Here</Link></p>
-            <p>Are you a food truck operator? Login <Link to='/AdminLogin'>here</Link></p>
+            <p><Link to='/UserRegister'>Don't have an account? Register Here</Link></p>
+            <p><Link to='/Home'>Back to register Home Page</Link></p>
         </animated.div>
     )
 }

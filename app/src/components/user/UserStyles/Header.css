@@ -1,5 +1,13 @@
 header {
-  
     padding: 3%;
     background-image: linear-gradient(to right, #FFA384, #E7F2F8, #74BDCB ) ;
+    
+}
+
+a {
+    color: black;
+}
+
+h1 {
+    text-decoration: underline;
 }
